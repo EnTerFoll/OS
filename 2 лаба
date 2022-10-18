@@ -1,0 +1,57 @@
+import string
+import random
+import hashlib
+import threading
+import time
+
+
+start = time.time()
+
+hash1 = '1115dd800feaacefdf481f1f9070374a2a81e27880f187396db67958b207cbad'
+hash2 = '3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b'
+hash3 = '74e1bb62f8dabb8125a58852b63bdf6eaef667cb56ac7f7cdba6d7305c50a22f'
+
+count_threads = int(input('Введите количество потоков -> '))
+hs = int(input('Выберите хэш (1, 2, 3): '))
+
+if hs == 1:
+    hs = hash1
+elif hs == 2:
+    hs = hash2
+else:
+    hs = hash3
+
+
+def randompassword():
+  chars = string.ascii_lowercase
+  size = 5
+  return ''.join(random.choice(chars) for x in range(size))
+
+
+def check():
+    n = 0
+    cc = 0
+    while n == 0:
+        passwd = randompassword()
+        hashed_passwd = hashlib.sha256(passwd.encode('utf-8')).hexdigest()
+        cc += 1
+        if hashed_passwd == hs:
+            n += 1
+            print(passwd, hashed_passwd, hs, cc)
+            end = time.time()
+    print("The time of execution of above program is :",
+          (end - start) * 10 ** 3, "ms")
+
+
+def run_threads(count):
+    threads = [
+        threading.Thread(target=check)
+        for i in range(0, count)
+    ]
+
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+run_threads(count_threads)
