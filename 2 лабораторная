@@ -21,11 +21,13 @@ elif hs == 2:
 else:
     hs = hash3
 
+print(hs)
+
 
 def randompassword():
-  chars = string.ascii_lowercase
-  size = 5
-  return ''.join(random.choice(chars) for x in range(size))
+    chars = string.ascii_lowercase
+    size = 5
+    return ''.join(random.choice(chars) for x in range(size))
 
 
 def check():
@@ -37,21 +39,21 @@ def check():
         cc += 1
         if hashed_passwd == hs:
             n += 1
-            print(passwd, hashed_passwd, hs, cc)
+            print(f'Результат: {passwd}, Кол-во перебранных вариантов: {cc}')
             end = time.time()
-    print("The time of execution of above program is :",
-          (end - start) * 10 ** 3, "ms")
+            print("Время выполнения:", (end - start) * 10 ** 3, "мс")
+            raise SystemExit
 
 
 def run_threads(count):
     threads = [
-        threading.Thread(target=check)
-        for i in range(0, count)
+    threading.Thread(target=check())
+    for i in range(0, count)
     ]
-
     for thread in threads:
         thread.start()
     for thread in threads:
         thread.join()
+
 
 run_threads(count_threads)
