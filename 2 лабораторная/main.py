@@ -25,7 +25,9 @@ def divide(data, count):
 
 
 if __name__ == "__main__":
-    count_threads = int(input('Введите количество потоков -> '))
+    count_threads = 0
+    while count_threads < 1 or count_threads > 16:
+        count_threads = int(input('Введите количество потоков от 1 до 16 -> '))
 
     with open('1.bin', 'r') as f:
         print('Читаем словарь')
